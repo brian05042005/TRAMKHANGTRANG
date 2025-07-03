@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khuyến Mãi</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <h1>Chương Trình Khuyến Mãi</h1>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="checkout.html">Thanh toán</a>
+    </nav>
+
+    <div id="cartIcon" onclick="openPopup()">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cartCountIcon">0</span>
+    </div>
+  </header>
+
+  <section>
+    <p>Các sản phẩm khuyến mãi đặc biệt hôm nay:</p>
+  </section>
+
+  <section id="promotionList"></section>
+
+  <div id="cartPopup" class="popup">
+    <h3>Giỏ hàng của bạn</h3>
+    <div id="popupItems"></div>
+    <a href="checkout.html" class="btn">Xem & Thanh toán</a>
+    <button onclick="closePopup()">Đóng</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 TRAM KHANG TRANG Pharmacy</p>
+  </footer>
+  <script src="script.js"></script>
+  <script>
+    function renderPromotions() {
+      const container = document.getElementById("promotionList");
+      const promotions = products.slice(0,3);
+      container.innerHTML = "";
+      promotions.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+          <img src="${p.image}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <p><s>${parseInt(p.price)+10000}đ</s> <strong>${p.price}đ</strong></p>
+          <button onclick="addToCart(${p.id})">Thêm vào giỏ</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    renderPromotions();
+  </script>
+</body>
+</html>

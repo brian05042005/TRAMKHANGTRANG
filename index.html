@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRAM KHANG TRANG Pharmacy</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+  .user-links a {
+    text-decoration: none;
+    margin: 0 10px;
+    color: #4ac29a;
+  }
+  .user-links a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+</head>
+<body>
+  <header>
+    <div class="hamburger" onclick="toggleMenu()">
+  <i class="fas fa-bars"></i>
+</div>
+<div id="sideMenu" class="side-menu">
+  <a href="index.html">Trang chủ</a>
+  <a href="checkout.html">Thanh toán</a>
+  <a href="account.html">Tài khoản</a>
+  <a href="order-history.html">Lịch sử đơn hàng</a>
+</div>
+
+  <div class="header-left">
+    <img src="images/logo.png" alt="Logo" class="logo">
+    <h1> TRAM KHANG TRANG Pharmacy</h1>
+  </div>
+ <nav>
+  <a href="index.html">Trang chủ</a>
+  <div class="dropdown">
+    <a href="#">Danh mục <i class="fas fa-caret-down"></i></a>
+    <div class="dropdown-content">
+      <a href="promotions.html">Khuyến mãi</a>
+      <a href="checkout.html">Thanh toán</a>
+    </div>
+  </div>
+  <a href="about.html">Giới thiệu</a>
+<a href="account.html"><i class="fas fa-user"></i> Tài khoản</a>
+
+</nav>
+  <div class="header-right">
+    <div class="hotline"><i class="fas fa-phone"></i> 1900 6789</div>
+    <div id="cartIcon" onclick="openPopup()">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cartCountIcon">0</span>
+    </div>
+  </div>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+</div>
+
+</header>
+
+
+
+<!-- Banner Slide -->
+<section id="banner">
+  <div class="slide fade"><img src="images/banner1.jpg" alt="Banner 1"></div>
+  <div class="slide fade"><img src="images/banner2.jpg" alt="Banner 2"></div>
+  <div class="slide fade"><img src="images/banner3.jpg" alt="Banner 3"></div>
+  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</section>
+
+<div style="padding: 20px;">
+  <input type="text" id="searchInput" placeholder="Tìm thuốc theo tên..." style="width: 100%; padding: 10px; font-size: 16px;">
+</div>
+<div style="padding: 20px;">
+  <select id="categoryFilter" onchange="filterByCategory()" style="padding: 10px; font-size: 16px;">
+    <option value="">-- Tất cả danh mục --</option>
+    <option value="Thuốc kê đơn">Thuốc kê đơn</option>
+    <option value="Thực phẩm chức năng">Thực phẩm chức năng</option>
+    <option value="Mỹ phẩm - Skincare">Mỹ phẩm - Skincare</option>
+    <option value="Chăm sóc tóc">Chăm sóc tóc</option>
+    <option value="Thuốc không kê đơn">Thuốc không kê đơn</option>
+    <option value="Chăm sóc răng miệng">Chăm sóc răng miệng</option>
+    <option value="Chăm sóc cá nhân">Chăm sóc cá nhân</option>
+  </select>
+</div>
+
+  <section id="productList"></section>
+  <div id="pagination"></div>
+
+
+  <!-- Popup giỏ hàng -->
+  <div id="cartPopup" class="popup">
+    <h3>Giỏ hàng của bạn</h3>
+    <div id="popupItems"></div>
+
+    <a href="checkout.html" class="btn">Xem & Thanh toán</a>
+    <button onclick="closePopup()">Đóng</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2025  TRAM KHANG TRANG Pharmacy</p>
+  </footer>
+  <script src="promotions.js"></script>
+  <script src="script.js"></script>
+  <!-- Chat Bot Rule-Based -->
+<div id="chatBot">
+  <div id="chatHeader" onclick="toggleChat()">💬 Chat hỗ trợ</div>
+  <div id="chatContent">
+    <div id="chatMessages"></div>
+    <div id="chatSuggestions"></div>
+    <input type="text" id="chatInput" placeholder="Nhập câu hỏi..." onkeypress="handleChat(event)">
+  </div>
+</div>
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="modalName"></h2>
+    <img id="modalImage" src="" alt="" style="max-width:100%; margin-bottom:10px;">
+    <p><strong>Thành phần:</strong> <span id="modalThanhPhan"></span></p>
+    <p><strong>Công dụng:</strong> <span id="modalCongDung"></span></p>
+    <p><strong>Cách dùng:</strong> <span id="modalCachDung"></span></p>
+    <p><strong>Tác dụng phụ:</strong> <span id="modalTacDungPhu"></span></p>
+    <p><strong>Lưu ý:</strong> <span id="modalLuuY"></span></p>
+    <p><strong>Bảo quản:</strong> <span id="modalBaoQuan"></span></p>
+    
+    <div id="ratingSection">
+  <p>Đánh giá sản phẩm:</p>
+  <div id="ratingStars"></div>
+</div>
+    <div id="commentsContainer">
+      <strong>Bình luận khách hàng:</strong>
+      <ul id="commentList"></ul>
+      <textarea id="newComment" placeholder="Nhập bình luận..."></textarea>
+      <button onclick="addComment()">Gửi bình luận</button>
+    </div>
+</div>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

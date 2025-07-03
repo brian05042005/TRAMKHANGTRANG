@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Giới thiệu - TRAM KHANG TRANG Pharmacy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      color: #333;
+    }
+    header, footer {
+      background: #2a7f62;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+    nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .about-container {
+      max-width: 1100px;
+      margin: 30px auto;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .poster {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .about-content {
+      padding: 30px;
+    }
+    .about-content h2 {
+      color: #2a7f62;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .about-content p {
+      font-size: 1.1em;
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+    .about-content ul {
+      list-style: none;
+      padding: 0;
+    }
+    .about-content ul li {
+      margin: 10px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+    .about-content ul li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #2a7f62;
+      font-weight: bold;
+    }
+    .social-links {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .social-links a {
+      margin: 0 10px;
+      color: #2a7f62;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .social-links a i {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TRAM KHANG TRANG Pharmacy</h1>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="promotions.html">Khuyến mãi</a>
+      <a href="about.html">Giới thiệu</a>
+    </nav>
+  </header>
+
+  <main class="about-container">
+    <!-- Poster Hình Ảnh -->
+    <img src="images/poster.png"alt="Poster giới thiệu" class="poster">
+    
+<section id="map-section" style="margin-top: 30px;">
+  <h2 style="color: #2a7f62; text-align: center;">📍 Vị trí hiệu thuốc</h2>
+  <div style="max-width: 100%; height: 400px; margin: 20px auto;">
+    <!-- Nhúng bản đồ ở đây -->
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7836.569436281645!2d106.6146542!3d10.8659358!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752b92f94ad7c7%3A0xbd8b48f4dda5b95!2zMTA4MCDEkC4gTmd1eeG7hW4g4bqibmggVGjhu6csIFTDom4gQ2jDoW5oIEhp4buHcCwgUXXhuq1uIDEyLCBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1751493674489!5m2!1svi!2s"
+      width="100%" height="100%" style="border:0;" allowfullscreen=""
+      loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</section>
+
+    <div class="about-content">
+      <h2>Về TRAM KHANG TRANG Pharmacy</h2>
+      <p>
+        Với hơn 10 năm kinh nghiệm trong lĩnh vực phân phối dược phẩm chính hãng, TRAM KHANG TRANG Pharmacy luôn đặt sức khỏe và sự hài lòng của khách hàng lên hàng đầu.
+      </p>
+      <p>
+        Chúng tôi tự hào mang đến hàng ngàn sản phẩm đa dạng từ thuốc kê đơn, thực phẩm chức năng đến sản phẩm chăm sóc sức khỏe gia đình.
+      </p>
+      <h3>Giá trị cốt lõi</h3>
+      <ul>
+        <li>Chất lượng sản phẩm đảm bảo, nguồn gốc rõ ràng</li>
+        <li>Dịch vụ tư vấn tận tâm, chuyên nghiệp</li>
+        <li>Đổi mới không ngừng để đáp ứng nhu cầu khách hàng</li>
+      </ul>
+      <h3>Liên kết mạng xã hội</h3>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i>Facebook</a>
+        <a href="#"><i class="fab fa-instagram"></i>Instagram</a>
+        <a href="#"><i class="fab fa-youtube"></i>YouTube</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 TRAM KHANG TRANG Pharmacy</p>
+  </footer>
+</body>
+</html>

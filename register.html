@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng ký</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: #2a7f62;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    nav .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    nav .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 150px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    nav .dropdown-content a {
+      color: black;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+    }
+
+    nav .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    h1 {
+      font-size: 1.2em;
+      margin: 0;
+    }
+
+    /* Register Box */
+    .register-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+
+    .register-box {
+      background: white;
+      padding: 30px 35px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .register-box h2 {
+      margin-bottom: 20px;
+      color: #2a7f62;
+      text-align: center;
+    }
+
+    .register-box input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    .register-box input:focus {
+      border-color: #2a7f62;
+      outline: none;
+      box-shadow: 0 0 5px rgba(42,127,98,0.2);
+    }
+
+    .register-box button {
+      width: 100%;
+      background: #2a7f62;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .register-box button:hover {
+      background: #246b54;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #2a7f62;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="header-left">
+      <img src="images/logo.png" alt="Logo" class="logo">
+      <h1>TRAM KHANG TRANG Pharmacy</h1>
+    </div>
+    <div>
+      <a href="index.html">Trang chủ</a>
+      <div class="dropdown">
+        <a href="#">Danh mục <i class="fas fa-caret-down"></i></a>
+        <div class="dropdown-content">
+          <a href="promotions.html">Khuyến mãi</a>
+          <a href="checkout.html">Thanh toán</a>
+        </div>
+      </div>
+      <a href="about.html">Giới thiệu</a>
+      <a href="account.html"><i class="fas fa-user"></i> Tài khoản</a>
+    </div>
+  </nav>
+
+  <!-- Register Form -->
+  <div class="register-wrapper">
+    <div class="register-box">
+      <h2>Đăng ký tài khoản</h2>
+      <input type="text" id="registerName" placeholder="Họ và tên" required>
+      <input type="email" id="registerEmail" placeholder="Email" required>
+      <input type="password" id="registerPassword" placeholder="Mật khẩu" required>
+      <input type="text" id="registerAddress" placeholder="Địa chỉ" required>
+
+      <button onclick="register()">Đăng ký</button>
+
+      <div class="login-link">
+        Đã có tài khoản? <a href="login.html">Đăng nhập</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function register() {
+      const name = document.getElementById("registerName").value.trim();
+      const email = document.getElementById("registerEmail").value.trim();
+      const password = document.getElementById("registerPassword").value.trim();
+      const address = document.getElementById("registerAddress").value.trim();
+
+      if (name && email && password && address) {
+        if (localStorage.getItem(email)) {
+          alert("Email này đã được đăng ký.");
+          return;
+        }
+
+        const user = { name, email, password, address, defaultAddress: address };
+        localStorage.setItem(email, JSON.stringify(user));
+        localStorage.setItem("currentUser", email);
+        alert("Đăng ký thành công!");
+        window.location.href = "account.html";
+      } else {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+      }
+    }
+  </script>
+</body>
+</html>

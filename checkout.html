@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thanh toán - TRAM KHANG TRANG Pharmacy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #eef2f3;
+      margin: 0;
+      padding: 0;
+    }
+    header, footer {
+      background: #2a7f62;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+    nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .checkout-container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .checkout-container h2 {
+      color: #2a7f62;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 12px 0;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-item button {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .total, .shipping, .grand-total {
+      text-align: right;
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 1.1em;
+    }
+    .grand-total {
+      font-size: 1.3em;
+      color: #2a7f62;
+    }
+    .checkout-form {
+      margin-top: 30px;
+    }
+    .checkout-form label {
+      display: block;
+      margin: 12px 0 5px;
+      font-weight: 500;
+    }
+    .checkout-form input,
+    .checkout-form textarea,
+    .checkout-form select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+      background: #f9f9f9;
+    }
+    .checkout-form button {
+      background: #2a7f62;
+      color: #fff;
+      padding: 14px 22px;
+      border: none;
+      border-radius: 4px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+    .checkout-form button:hover {
+      background: #1f5c48;
+    }
+    .checkout-form .icon {
+      margin-right: 8px;
+      color: #2a7f62;
+    }
+.cart-item span:first-child {
+  flex: 1;
+}
+.cart-item span:nth-child(2) {
+  width: 120px;
+  text-align: right;
+  margin-right: 370px;
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TRAM KHANG TRANG Pharmacy</h1>
+   <nav>
+  <a href="index.html">Trang chủ</a> |
+  <a href="checkout.html">Thanh toán</a> |
+  <a href="account.html">Tài khoản của tôi</a>
+</nav>
+
+  </header>
+
+  <main class="checkout-container">
+    <h2>Giỏ hàng của bạn</h2>
+    <div id="cartItems"></div>
+    <div class="total">Tiền hàng: <span id="totalPrice">0</span> VNĐ</div>
+
+
+    <div class="shipping">Phí vận chuyển: <span id="shippingFee">30,000</span> VNĐ</div>
+    <div class="grand-total">Tổng cộng: <span id="grandTotal">0</span> VNĐ</div>
+
+
+    <form class="checkout-form" onsubmit="submitOrder(event)">
+
+    <label for="promoSelect"><i class="fas fa-gift icon"></i>Mã giảm giá</label>
+<select id="promoSelect">
+  <option value="">-- Chọn mã giảm giá --</option>
+</select>
+<div id="discountInfo" style="margin-top:5px;color:green;"></div>
+
+      <h2>Thông tin giao hàng</h2>
+      <label for="name"><i class="fas fa-user icon"></i>Họ và tên</label>
+      <input type="text" id="name" required />
+      <label for="phone"><i class="fas fa-phone icon"></i>Số điện thoại</label>
+      <input type="tel" id="phone" required />
+      <label for="address"><i class="fas fa-map-marker-alt icon"></i>Địa chỉ giao hàng</label>
+
+      <textarea id="address" rows="3" required></textarea>
+      <div id="checkoutAddress"></div>
+
+      <label for="payment"><i class="fas fa-credit-card icon"></i>Phương thức thanh toán</label>
+      <select id="payment" required>
+        <option value="">-- Chọn phương thức --</option>
+        <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+        <option value="bank">Chuyển khoản ngân hàng</option>
+        <option value="momo">Ví Momo</option>
+      </select>
+      <button type="submit"><i class="fas fa-check"></i> Xác nhận đặt hàng</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 TRAM KHANG TRANG Pharmacy</p>
+  </footer>
+    <script src="promotions.js"></script>
+  <script>
+    const promoSelect = document.getElementById('promoSelect');
+const discountInfo = document.getElementById('discountInfo');
+
+
+
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const shippingFee = 30000;
+    let currentDiscount = 0;
+
+    const cartItemsDiv = document.getElementById('cartItems');
+    const totalPriceSpan = document.getElementById('totalPrice');
+    const grandTotalSpan = document.getElementById('grandTotal');
+
+    function renderCart() {
+      cartItemsDiv.innerHTML = '';
+      let total = 0;
+
+      if (cart.length === 0) {
+        cartItemsDiv.innerHTML = '<p>Giỏ hàng của bạn đang trống.</p>';
+        totalPriceSpan.textContent = '0';
+        grandTotalSpan.textContent = '0';
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <span>${item.name || 'Sản phẩm'} x ${item.quantity || 1}</span>
+          <span>${((item.price || 0) * (item.quantity || 1)).toLocaleString()} VNĐ</span>
+          <button onclick="removeItem(${index})"><i class="fas fa-trash"></i></button>
+        `;
+        cartItemsDiv.appendChild(div);
+        total += (item.price || 0) * (item.quantity || 1);
+      });
+
+      totalPriceSpan.textContent = total.toLocaleString();
+      grandTotalSpan.textContent = (total + shippingFee - currentDiscount).toLocaleString();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+   
+    function populatePromotions() {
+  promotions.forEach(promo => {
+    const option = document.createElement('option');
+    option.value = promo.code;
+    option.textContent = `${promo.code} - ${promo.discountPercent}% (>=${promo.minOrder.toLocaleString()} VND)`;
+    promoSelect.appendChild(option);
+  });
+}   // <-- thêm dòng này để đóng hàm
+
+function handleApplyPromotion() {
+  const code = promoSelect.value;
+  const orderTotalRaw = cart.reduce((s, i) => s + i.quantity * i.price, 0);
+
+  if (!code) {
+    currentDiscount = 0;
+    discountInfo.textContent = '';
+    grandTotalSpan.textContent = (orderTotalRaw + shippingFee).toLocaleString();
+    return;
+  }
+
+  const promo = promotions.find(p => p.code === code);
+  if (!promo) {
+    discountInfo.textContent = '❌ Mã không tồn tại.';
+    return;
+  }
+
+  const today = new Date().toISOString().slice(0,10);
+  if (today > promo.expiry) {
+    discountInfo.textContent = '❌ Mã đã hết hạn.';
+    return;
+  }
+
+  if (orderTotalRaw < promo.minOrder) {
+    discountInfo.textContent = `❌ Đơn hàng phải từ ${promo.minOrder.toLocaleString()} VND.`;
+    return;
+  }
+
+  currentDiscount = orderTotalRaw * promo.discountPercent / 100;
+  discountInfo.textContent = `✅ Giảm ${currentDiscount.toLocaleString()} VND.`;
+  grandTotalSpan.textContent = (orderTotalRaw + shippingFee - currentDiscount).toLocaleString();
+}
+
+ renderCart();
+ populatePromotions();
+ promoSelect.addEventListener("change", handleApplyPromotion);
+
+  </script>
+  <script>
+function register() {
+  const name = document.getElementById("registerName").value;
+  const email = document.getElementById("registerEmail").value;
+  const password = document.getElementById("registerPassword").value;
+  const address = document.getElementById("registerAddress").value;
+
+  if (name && email && password) {
+    const user = { name, email, password, address, defaultAddress: address };
+    localStorage.setItem(email, JSON.stringify(user));
+    localStorage.setItem("currentUser", email);
+    alert("Đăng ký thành công");
+    window.location.href = "account.html";
+  } else {
+    alert("Vui lòng nhập đủ thông tin");
+  }
+}
+
+function login() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  const storedUser = JSON.parse(localStorage.getItem(email));
+  if (storedUser && storedUser.password === password) {
+    localStorage.setItem("currentUser", email);
+    alert("Đăng nhập thành công");
+    window.location.href = "account.html";
+  } else {
+    alert("Email hoặc mật khẩu không đúng");
+  }
+}
+
+function logout() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
+function renderAccountInfo() {
+  const email = localStorage.getItem("currentUser");
+  if (!email) {
+    alert("Bạn chưa đăng nhập");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const user = JSON.parse(localStorage.getItem(email));
+  if (user) {
+    document.getElementById("accountName").innerText = user.name;
+    document.getElementById("accountEmail").innerText = user.email;
+    document.getElementById("accountAddress").value = user.address || "";
+    document.getElementById("defaultAddress").value = user.defaultAddress || "";
+  }
+}
+
+function updateAddress() {
+  const email = localStorage.getItem("currentUser");
+  const user = JSON.parse(localStorage.getItem(email));
+  if (user) {
+    user.address = document.getElementById("accountAddress").value;
+    user.defaultAddress = document.getElementById("defaultAddress").value;
+    localStorage.setItem(email, JSON.stringify(user));
+    alert("Đã cập nhật địa chỉ");
+  }
+}
+
+function renderCheckoutAddress() {
+  const email = localStorage.getItem("currentUser");
+  if (email) {
+    const user = JSON.parse(localStorage.getItem(email));
+    if (user && user.defaultAddress) {
+      document.getElementById("checkoutAddress").innerText = "Địa chỉ giao hàng: " + user.defaultAddress;
+    } else {
+      document.getElementById("checkoutAddress").innerText = "Chưa có địa chỉ mặc định.";
+    }
+  } else {
+    document.getElementById("checkoutAddress").innerText = "Bạn chưa đăng nhập.";
+  }
+}
+window.addEventListener("load", renderCheckoutAddress);
+
+function placeOrder() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  if (cart.length === 0) {
+    alert("Giỏ hàng của bạn đang trống.");
+    return;
+  }
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const payment = document.getElementById("payment").value;
+  const now = new Date();
+  const timestamp = now.toLocaleString("vi-VN");
+
+  // Lấy danh sách sản phẩm
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+
+  // Kiểm tra tồn kho
+  for (let item of cart) {
+    const product = products.find(p => p.id === item.id);
+    if (!product || product.stock < item.quantity) {
+      alert(`❌ Sản phẩm "${item.name}" không đủ hàng.`);
+      return;
+    }
+  }
+
+  // Trừ tồn kho & tăng đã bán
+  cart.forEach(item => {
+    const product = products.find(p => p.id === item.id);
+    if (product) {
+      product.stock -= item.quantity;
+      product.sold += item.quantity;
+    }
+  });
+  localStorage.setItem("products", JSON.stringify(products));
+
+  // Thêm đơn hàng vào lịch sử
+  const orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
+  orderHistory.push({
+    items: cart,
+    time: timestamp,
+    customer: { name, phone, address, payment }
+  });
+  localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
+
+  localStorage.removeItem("cart");
+  alert("✅ Đặt hàng thành công!");
+
+  window.location.href = "index.html";
+}
+
+function submitOrder(event) {
+    event.preventDefault(); // Ngăn gửi form mặc định
+
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const payment = document.getElementById("payment").value;
+
+    if (!name || !phone || !address || !payment) {
+      alert("Vui lòng điền đầy đủ thông tin và chọn phương thức thanh toán.");
+      return;
+    }
+
+    placeOrder(); // Gọi hàm chính đã có
+  }
+</script>
+
+</body>
+</html>

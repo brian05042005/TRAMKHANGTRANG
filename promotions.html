@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương Trình Khuyến Mãi - TRAM KHANG TRANG Pharmacy</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        background: #f5f5f5;
+      }
+      header {
+        background: #2a7f62;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        position: relative;
+      }
+      .header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}
+
+nav.main-nav {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+nav.main-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+nav.main-nav a:hover {
+  text-decoration: underline;
+  color: #ddd;
+}
+
+#cartIcon {
+  position: relative;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+#cartIcon i {
+  font-size: 1.4em;
+}
+
+#cartCountIcon {
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+    .promotion-banner {
+  width: 80%;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+
+      section {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      #promotionList {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      .product {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      }
+      .product img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .product h3 {
+        margin: 10px 0;
+        font-size: 1.1em;
+      }
+      .product p {
+        margin: 5px 0;
+      }
+      .product s {
+        color: #888;
+        margin-right: 8px;
+      }
+      .product button {
+        background: #2a7f62;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-weight: 500;
+        margin: 5px; /* Added margin for spacing between buttons */
+      }
+      .product button:hover {
+        background: #1e5a48;
+      }
+      footer {
+        background: #2a7f62;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        margin-top: 30px;
+      }
+
+      /* Modal (Product Details Popup) styles */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto; /* 5% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+        max-width: 800px;
+        border-radius: 10px;
+        position: relative;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+      }
+
+      /* Add Animation */
+      @keyframes animatetop {
+        from {
+          top: -300px;
+          opacity: 0;
+        }
+        to {
+          top: 0;
+          opacity: 1;
+        }
+      }
+
+      .close-button {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close-button:hover,
+      .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .modal-body {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .modal-body img {
+        width: 40%;
+        max-width: 300px;
+        height: auto;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .modal-details {
+        width: 55%;
+      }
+
+      .modal-details h2 {
+        color: #2a7f62;
+        margin-top: 0;
+      }
+
+      .modal-details p {
+        margin-bottom: 10px;
+        line-height: 1.5;
+      }
+
+      .modal-details strong {
+        color: #333;
+      }
+
+      .rating-section {
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+      }
+
+      .rating-stars span {
+        font-size: 28px;
+        cursor: pointer;
+        color: gray;
+        transition: color 0.2s;
+      }
+
+      .rating-stars span.active,
+      .rating-stars span:hover {
+        color: gold;
+      }
+
+      .comments-section {
+        margin-top: 20px;
+      }
+
+      .comments-section h3 {
+        color: #2a7f62;
+      }
+
+      #commentList {
+        list-style: none;
+        padding: 0;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      #commentList li {
+        background-color: #f9f9f9;
+        padding: 8px 12px;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #commentList li button {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-left: 5px;
+        font-size: 0.9em;
+      }
+
+      #commentList li button:hover {
+        background-color: #c0392b;
+      }
+
+      #commentList li button:first-of-type {
+        background-color: #3498db;
+      }
+
+      #commentList li button:first-of-type:hover {
+        background-color: #2980b9;
+      }
+
+      .add-comment-section textarea {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: vertical;
+      }
+
+      .add-comment-section button {
+        background-color: #2a7f62;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.3s ease;
+      }
+
+      .add-comment-section button:hover {
+        background-color: #1e5a48;
+      }
+
+      /* Responsive adjustments for modal */
+      @media (max-width: 768px) {
+        .modal-body {
+          flex-direction: column;
+        }
+        .modal-body img,
+        .modal-details {
+          width: 100%;
+          max-width: none;
+        }
+        .modal-content {
+          margin: 20px auto;
+          width: 95%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+  <h1>Chương Trình Khuyến Mãi</h1>
+
+  <div class="header-top">
+    <nav class="main-nav">
+      <a href="index.html">Trang chủ</a>
+      <a href="checkout.html">Thanh toán</a>
+      <a href="about.html">Giới thiệu</a>
+      <a href="account.html"><i class="fas fa-user"></i> Tài khoản</a>
+    </nav>
+
+    <div id="cartIcon" onclick="openPopup()">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cartCountIcon">0</span>
+    </div>
+  </div>
+</header>
+
+
+    <img src="images/promotion-banner.jpg" alt="Khuyến mãi" class="promotion-banner" />
+    <section>
+      <p>DANH SÁCH KHUYẾN MÃI</p>
+    </section>
+
+    <section id="promotionList"></section>
+
+    <div id="productModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal()">&times;</span>
+        <div class="modal-body">
+          <img id="modalImage" src="" alt="Product Image" />
+          <div class="modal-details">
+            <h2 id="modalName"></h2>
+            <p><strong>Thành phần:</strong> <span id="modalThanhPhan"></span></p>
+            <p><strong>Công dụng:</strong> <span id="modalCongDung"></span></p>
+            <p><strong>Cách dùng:</strong> <span id="modalCachDung"></span></p>
+            <p><strong>Tác dụng phụ:</strong> <span id="modalTacDungPhu"></span></p>
+            <p><strong>Lưu ý:</strong> <span id="modalLuuY"></span></p>
+            <p><strong>Bảo quản:</strong> <span id="modalBaoQuan"></span></p>
+
+            <div class="rating-section">
+              <h3>Đánh giá sản phẩm:</h3>
+              <div id="ratingStars" class="rating-stars"></div>
+            </div>
+
+            <div class="comments-section">
+              <h3>Bình luận:</h3>
+              <ul id="commentList">
+                </ul>
+              <div class="add-comment-section">
+                <textarea
+                  id="newComment"
+                  placeholder="Viết bình luận của bạn..."
+                  rows="3"
+                ></textarea>
+                <button onclick="addComment()">Gửi bình luận</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="cartPopup" class="popup">
+      <h3>Giỏ hàng của bạn</h3>
+      <div id="popupItems"></div>
+      <a href="checkout.html" class="btn">Xem & Thanh toán</a>
+      <button onclick="closePopup()">Đóng</button>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 TRAM KHANG TRANG Pharmacy</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      // The renderPromotions function specific to this page.
+      // It uses the 'products' array defined in script.js
+      function renderPromotions() {
+        const container = document.getElementById('promotionList');
+        // This part should render the first 8 products as promotions
+        const promotions = products.slice(0, 8); // Assuming products array is accessible
+        container.innerHTML = '';
+        promotions.forEach((p) => {
+          const div = document.createElement('div');
+          div.className = 'product';
+          div.innerHTML = `
+            <img src="${p.image}" alt="${p.name}">
+            <h3>${p.name}</h3>
+            <p><s>${parseInt(p.price) + 10000}đ</s> <strong>${p.price}đ</strong></p>
+            <button onclick="addToCart(${p.id})">Thêm vào giỏ</button>
+            <button onclick="showDetails(${p.id})">Xem chi tiết</button>
+          `;
+          container.appendChild(div);
+        });
+      }
+      renderPromotions(); // Call renderPromotions on page load
+
+      // Your existing 'Live-server' script (keep this for development)
+      // <![CDATA[  <-- For SVG support
+      if ('WebSocket' in window) {
+        (function () {
+          function refreshCSS() {
+            var sheets = [].slice.call(document.getElementsByTagName('link'));
+            var head = document.getElementsByTagName('head')[0];
+            for (var i = 0; i < sheets.length; ++i) {
+              var elem = sheets[i];
+              var parent = elem.parentElement || head;
+              parent.removeChild(elem);
+              var rel = elem.rel;
+              if (
+                elem.href &&
+                typeof rel != 'string' ||
+                rel.length == 0 ||
+                rel.toLowerCase() == 'stylesheet'
+              ) {
+                var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+              }
+              parent.appendChild(elem);
+            }
+          }
+          var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+          var address = protocol + window.location.host + window.location.pathname + '/ws';
+          var socket = new WebSocket(address);
+          socket.onmessage = function (msg) {
+            if (msg.data == 'reload') window.location.reload();
+            else if (msg.data == 'refreshcss') refreshCSS();
+          };
+          if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+            console.log('Live reload enabled.');
+            sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+          }
+        })();
+      } else {
+        console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+      }
+      // ]]>
+      const promotionsData = [
+        {
+          code: 'SALE10',
+          discountPercent: 10,
+          expiry: '2025-12-31',
+          minOrder: 500000,
+        },
+        {
+          code: 'XUAN20',
+          discountPercent: 20,
+          expiry: '2025-04-30',
+          minOrder: 1000000,
+        },
+        {
+          code: 'FREESHIP',
+          discountPercent: 5,
+          expiry: '2025-08-31',
+          minOrder: 300000,
+        },
+      ];
+    </script>
+  </body>
+</html>
